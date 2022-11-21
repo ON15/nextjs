@@ -6,7 +6,7 @@ export default function Navigation() {
         <nav className='site-navigation'>
             <Link href="/">Start</Link>
             <Link href="/news">News</Link>
-
+            <Link href="/bilder">Bilder</Link>
         </nav>
     )
 }
