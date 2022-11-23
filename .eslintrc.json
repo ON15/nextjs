@@ -1,8 +1,11 @@
+// {
+//   "extends": "next/core-web-vitals",
+//   "rules": {
+//     "no-var": "error",
+//     "prefer-const": "error",
+//     "object-shorthand": "warn"
+//   }
+// }
 {
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "no-var": "error",
-    "prefer-const": "error",
-    "object-shorthand": "warn"
-  }
+  "extends": "next/core-web-vitals"
 }
