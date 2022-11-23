@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Layout from '@/components/Layout'
 import Image from 'next/image'
 import hongKong from '@/img/hong-kong.jpg';
@@ -6,12 +5,30 @@ import hongKong from '@/img/hong-kong.jpg';
 export default function bilder() {
     return (
         <Layout title="Bilder">
+            {/* 
+            Wenn man ein Bild, das auf dem Server liegt, zuvor importiert
+            und bei src einsetzt, kann man width und height weglassen.
+            placeholder="blur" erzeugt eine verschwommene sehr kleine Variante des Bildes, 
+            die sofort sichtbar ist und dann später durch das volle Bild ausgetauscht wird.
+            Demo: https://image-component.nextjs.gallery/placeholder
+            */}
             <Image
                 alt="Hong Kong"
                 src={hongKong}
                 sizes="(max-width: 52rem) 90vw, 48rem"
+                placeholder="blur"
             />
 
+            {/* Wenn ein normaler Webpfad angegeben wird, muss man von Hand width und height angeben, 
+            placeholder kann nur genutzt werden, wenn man selbst die Daten für das verschwommenen Bild liefert. 
+            */}
+            <Image
+                alt="Hong Kong"
+                src="/img/hong-kong.jpg"
+                width={5184}
+                height={3456}
+                sizes="(max-width: 52rem) 90vw, 48rem"
+            />
 
             <img src="https://images.unsplash.com/photo-1668910283626-f79cca6429c8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="logo" className='logo' width="320" height="100" />
             <img src="/img/logo.jpg" alt="Bildbeschreibung" className='logo' width="320" height="100" />
@@ -36,8 +53,14 @@ export default function bilder() {
             />
 
             <picture>
-                <source type="image/avif" srcSet="/img/herbst.avif" />
-                <source type="image/webp" srcSet="/img/herbst.webp" />
+                <source
+                    media="(max-width: 30rem) and (orientation: portrait)"
+                    srcSet="/img/header-image-portrait.jpg"
+                />
+                <source
+                    media="(max-width: 40rem) and (orientation: portrait)"
+                    srcSet="/img/header-image-square.jpg"
+                />
                 <img
                     className="image"
                     src="/img/header-image-landscape@1000.jpg"
@@ -47,8 +70,19 @@ export default function bilder() {
                     alt="Mann mit Kind am Strand"
                 />
             </picture>
-            <p>Text</p>
+
+            <picture>
+                <source type="image/avif" srcSet="/img/herbst.avif" />
+                <source type="image/webp" srcSet="/img/herbst.webp" />
+                <img
+                    className="image"
+                    src="/img/herbst.jpg"
+                    alt="Herbstliche Blätter"
+                    loading="lazy"
+                    width="4"
+                    height="3"
+                />
+            </picture>
         </Layout>
     )
 }
-
