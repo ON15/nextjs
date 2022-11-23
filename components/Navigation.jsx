@@ -7,6 +7,7 @@ export default function Navigation() {
             <Link href="/">Start</Link>
             <Link href="/news">News</Link>
             <Link href="/bilder">Bilder</Link>
+            <Link href="/blog">Blog</Link>
         </nav>
     )
 }
