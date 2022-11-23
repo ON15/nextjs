@@ -37,5 +37,3 @@ export default function Blog({ posts, slug }) {
         </Layout>
     );
 }
-
-
