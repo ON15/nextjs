@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React from 'react'
+// https://nextjs.org/docs/api-reference/next/link
 
 export default function Navigation() {
     return (
