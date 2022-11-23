@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout';
+import Link from 'next/link';
 
 // Version mit REST-API:
 export async function getStaticProps() {
@@ -26,12 +27,14 @@ export async function getStaticProps() {
     };
 }
 
-export default function Blog({ posts, slug }) {
+export default function Blog({ posts }) {
     return (
         <Layout title="Blog">
             <ul>
-                {posts.map(({ title }) => (
-                    <li key={slug}>{title}</li>
+                {posts.map(({ title, slug }) => (
+                    <li key={slug}>
+                        <Link href={`/blog/${slug}`}>{title.rendered}</Link>
+                    </li>
                 ))}
             </ul>
         </Layout>
