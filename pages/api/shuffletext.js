@@ -12,9 +12,7 @@ import {shuffle} from '@/library/helpers'
 
 export default function shuffleText(req, res) {
     // console.log(req.query)
-    // const text = shuffle(req.query.text)
     // res.status(200).json({ text: '' })
-    // res.status(200).json({ text: textReq })
     const { text = '' } = req.query;
     const shuffledText = shuffle(text).join('');
     res.status(200).json({ text: shuffledText });
