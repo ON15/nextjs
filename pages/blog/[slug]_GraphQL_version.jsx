@@ -2,7 +2,6 @@ import Layout from '@/components/Layout';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-const apiPath = 'https://react.webworker.berlin/wp-json/wp/v2/';
 const graphQlPath = 'https://react.webworker.berlin/graphql';
 
 /* Wenn man einen dynamischen Pfad hat, muss man Next mitteilen,
@@ -14,12 +13,12 @@ export async function getStaticPaths() {
     let paths = [];
 
     const query = `{
-        posts {
-            nodes {
-            slug
-            }
-        }
-        }`;
+  posts {
+    nodes {
+      slug
+    }
+  }
+}`;
 
     try {
         const response = await fetch(`${graphQlPath}?query=${query}`);
@@ -30,7 +29,7 @@ export async function getStaticPaths() {
 
         const jsonData = await response.json();
 
-        post = jsonData.data.posts.nodes;
+        const posts = jsonData.data.posts.nodes;
         /*
           Der Schlüsselname "params" ist vorgegeben. Der Schlüsselname
           "slug" entspricht dem Platzhalter [slug] im Dateinamen von [slug].jsx
@@ -39,9 +38,11 @@ export async function getStaticPaths() {
           https://nextjs.org/docs/api-reference/data-fetching/get-static-paths
           */
         paths = posts.map(({ slug }) => ({ params: { slug } }));
+        console.log({ paths });
     } catch (error) {
         console.log(error);
     }
+
     return { paths, fallback: true };
 }
 
@@ -54,29 +55,33 @@ export async function getStaticProps({ params }) {
     */
     let post = {};
 
-    const query = `{
-        post(id: "${params.slug}", idType: SLUG) {
-        featuredImage {
-            node {
-            altText
-            guid
-            mediaDetails {
-                width
-                height
-            }
-            }
+    const query = `
+  {
+    post(id: "${params.slug}", idType: SLUG) {
+      featuredImage {
+        node {
+          altText
+          guid
+          mediaDetails {
+            width
+            height
+          }
         }
-        title
-        content
-        }
-    }`;
+      }
+      title
+      content
+    }
+  }
+  `;
 
     try {
         const response = await fetch(`${graphQlPath}?query=${query}`);
         if (!response.ok) {
             throw new Error('Problem!');
         }
+
         const jsonData = await response.json();
+
         post = jsonData.data.post;
     } catch (error) {
         console.log(error);
@@ -93,6 +98,7 @@ export async function getStaticProps({ params }) {
 export default function BlogPost({ post }) {
     // https://nextjs.org/docs/basic-features/data-fetching#fallback-pages
     const router = useRouter();
+
     if (router.isFallback) {
         return (
             <Layout>
@@ -100,6 +106,7 @@ export default function BlogPost({ post }) {
             </Layout>
         );
     }
+
     const { title, content, featuredImage } = post;
     return (
         <Layout title={title}>
@@ -112,6 +119,7 @@ export default function BlogPost({ post }) {
                     sizes="(max-width: 52rem) 90vw, 48rem"
                 />
             )}
+
             <div dangerouslySetInnerHTML={{ __html: content }} />
         </Layout>
     );
