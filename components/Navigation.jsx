@@ -8,6 +8,7 @@ export default function Navigation() {
             <Link href="/news">News</Link>
             <Link href="/bilder">Bilder</Link>
             <Link href="/blog">Blog</Link>
+            <Link href="/standorte">Standorte</Link>
         </nav>
     )
 }
